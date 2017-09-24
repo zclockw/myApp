@@ -1,0 +1,75 @@
+<html>
+	<head>
+	</head>
+	<body id="mybody" onload="CreateDiv('mybody', 'Hello World!')">
+	<input type="button" id="mybutton" onclick="drawLine(2)" value="点击此处添加标签"></input>
+	<canvas id="myCanvas" width="336px" height="450px" onmousedown="GetStartPoint()" onmouseup="DrawLine()" onclick="DrawRect()"></canvas>
+</body>
+</html>
+
+<script>
+	var startPointx;
+	var startPointy;
+	var endPointx;
+	var endPointy;
+
+	var flags = -1;
+
+	function windowTocanvas(canvas, x, y) {  
+                var bbox = canvas.getBoundingClientRect();  
+                return {  
+                    x: x - bbox.left * (canvas.width / bbox.width),   
+                    y: y - bbox.top * (canvas.height / bbox.height)  
+                };  
+  
+            }  
+
+	function CreateDiv(id, innerText){
+		var parent = document.getElementById(id);
+		var div = document.createElement("div");
+		div.setAttribute("id", "helloworld");
+		div.innerText = innerText;
+		parent.appendChild(div);
+	}
+
+	function GetStartPoint(){
+		var canvas=document.getElementById("myCanvas"); 
+		var loc=windowTocanvas(canvas,event.clientX,event.clientY);
+		startPointx = parseInt(loc.x);
+		startPointy = parseInt(loc.y);
+	}
+
+	function DrawLine(){
+		var canvas = document.getElementById("myCanvas");
+    	var mycontext = canvas.getContext('2d');
+		var loc=windowTocanvas(canvas,event.clientX,event.clientY);
+		endPointx = parseInt(loc.x);
+		endPointy = parseInt(loc.y);
+		canvas.strokeStyle="#eeddcc";
+		mycontext.moveTo(startPointx, startPointy);
+		mycontext.lineTo(endPointx, endPointy);
+		mycontext.stroke();
+	}
+
+	function DrawRect(){
+		if(flags == -1){
+			var canvas=document.getElementById("myCanvas"); 
+			var loc=windowTocanvas(canvas,event.clientX,event.clientY);
+			startPointx = parseInt(loc.x);
+			startPointy = parseInt(loc.y);
+			flags = 1;
+		}
+		else{
+			var canvas = document.getElementById("myCanvas");
+    		var mycontext = canvas.getContext('2d');
+			var loc=windowTocanvas(canvas,event.clientX,event.clientY);
+			endPointx = parseInt(loc.x);
+			endPointy = parseInt(loc.y);
+			canvas.strokeStyle="#eeddcc";
+			mycontext.fillStyle='#FF0000';
+			mycontext.fillRect(endPointx, endPointy, startPointx, startPointy);
+			mycontext.stroke();
+			flags = -1;
+		}
+	}
+</script>

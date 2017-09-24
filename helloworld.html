@@ -1,0 +1,17 @@
+<html>
+	<head>
+	</head>
+	<body id="mybody" onload="CreateDiv('mybody', 'Hello World!')">
+	<input type="button" id="mybutton" onclick="CreateDiv('mybody', 'Hello World!')" value="点击此处添加标签"></input>
+	</body>
+</html>
+
+<script>
+	function CreateDiv(id, innerText){
+		var parent = document.getElementById(id);
+		var div = document.createElement("div");
+		div.setAttribute("id", "helloworld");
+		div.innerText = innerText;
+		parent.appendChild(div);
+	}
+</script>
